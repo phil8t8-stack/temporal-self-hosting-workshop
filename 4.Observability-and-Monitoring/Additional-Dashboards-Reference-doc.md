@@ -157,5 +157,3 @@ In this exercise, you explored a comprehensive suite of Temporal monitoring dash
 
 **Why This Matters:**
 Regularly reviewing these dashboards enables operators, SREs, and developers to maintain optimal health of the Temporal platform. Quick detection and remediation of issues—whether at the infrastructure, service, or workflow layer—directly contribute to higher reliability, less downtime, faster incident response, and smoother scaling as workloads and teams grow.
-
-This concludes the out-of-the-box metrics Temporal recommends, next let's look into what [additional custom metrics](./4.2.3.Additional-metrics.md) you should have.

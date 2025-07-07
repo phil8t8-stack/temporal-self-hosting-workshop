@@ -1,0 +1,1380 @@
+{
+  "dashboard": {
+    "title": "Bitovi's expanded dashboard",
+    "tags": [
+      "temporal",
+      "bitovi"
+    ],
+    "timezone": "browser",
+    "editable": true,
+    "time": {
+      "from": "now-3h",
+      "to": "now"
+    },
+    "refresh": "5s",
+    "version": 0,
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "P1E53E98DCFC0B173"
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "code": {
+            "language": "plaintext",
+            "showLineNumbers": false,
+            "showMiniMap": false
+          },
+          "content": "This dashboard was created by Bitovi and applied via the API.",
+          "mode": "markdown"
+        },
+        "pluginVersion": "11.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "Welcome",
+        "type": "text"
+      },
+      {
+        "collapsed": true,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "P1E53E98DCFC0B173"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 3
+        },
+        "id": 2,
+        "panels": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "Overall % of successful gRPC requests using time range specified (all services). Useful to monitor cluster health.",
+            "fieldConfig": {
+              "defaults": {
+                "decimals": 2,
+                "mappings": [],
+                "max": 100,
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "percent"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 0,
+              "y": 4
+            },
+            "id": 3,
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": "11.0.0",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "expr": "100 - (sum(rate(service_errors[$__range]) OR on() vector(0)) / sum(rate(service_requests[$__range])) * 100)",
+                "legendFormat": "Availability",
+                "refId": "A"
+              }
+            ],
+            "title": "Service Availability",
+            "type": "stat"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "Percentage of successful requests to the persistence service in the time range selected (cluster-wide).",
+            "fieldConfig": {
+              "defaults": {
+                "decimals": 2,
+                "mappings": [],
+                "max": 100,
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "percent"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 12,
+              "y": 4
+            },
+            "id": 10,
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": "11.0.0",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "expr": "100 - (sum(rate(persistence_errors[$__range]) OR on() vector(0)) / sum(rate(persistence_requests[$__range])) * 100)",
+                "legendFormat": "Success %",
+                "refId": "E"
+              }
+            ],
+            "title": "Persistence Service Success %",
+            "type": "stat"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "Number of errors by type for service_name=\"frontend\" in the time range selected.",
+            "fieldConfig": {
+              "defaults": {
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 0,
+              "y": 12
+            },
+            "id": 4,
+            "options": {
+              "displayMode": "gradient",
+              "maxVizHeight": 300,
+              "minVizHeight": 16,
+              "minVizWidth": 8,
+              "namePlacement": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showUnfilled": true,
+              "sizing": "auto",
+              "valueMode": "color"
+            },
+            "pluginVersion": "11.0.0",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "expr": "sum(rate(service_error_with_type{service_name=\"frontend\"}[$__range])) by (error_type)",
+                "legendFormat": "{{error_type}}",
+                "refId": "B"
+              }
+            ],
+            "title": "Service Errors by Type (frontend)",
+            "type": "bargauge"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "Number of errors by type for service_name=\"history\" in the time range selected.",
+            "fieldConfig": {
+              "defaults": {
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 12,
+              "y": 12
+            },
+            "id": 5,
+            "options": {
+              "displayMode": "gradient",
+              "maxVizHeight": 300,
+              "minVizHeight": 16,
+              "minVizWidth": 8,
+              "namePlacement": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showUnfilled": true,
+              "sizing": "auto",
+              "valueMode": "color"
+            },
+            "pluginVersion": "11.0.0",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "expr": "sum(rate(service_error_with_type{service_name=\"history\"}[$__range])) by (error_type)",
+                "legendFormat": "{{error_type}}",
+                "refId": "B"
+              }
+            ],
+            "title": "Service Errors by Type (history)",
+            "type": "bargauge"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "Number of errors by type for service_name=\"matching\" in the time range selected..",
+            "fieldConfig": {
+              "defaults": {
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 0,
+              "y": 20
+            },
+            "id": 6,
+            "options": {
+              "displayMode": "gradient",
+              "maxVizHeight": 300,
+              "minVizHeight": 16,
+              "minVizWidth": 8,
+              "namePlacement": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showUnfilled": true,
+              "sizing": "auto",
+              "valueMode": "color"
+            },
+            "pluginVersion": "11.0.0",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "expr": "sum(rate(service_error_with_type{service_name=\"matching\"}[$__range])) by (error_type)",
+                "legendFormat": "{{error_type}}",
+                "refId": "B"
+              }
+            ],
+            "title": "Service Errors by Type (matching)",
+            "type": "bargauge"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "Number of errors by type for service_name=\"worker\" in the time range selected..",
+            "fieldConfig": {
+              "defaults": {
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 12,
+              "y": 20
+            },
+            "id": 7,
+            "options": {
+              "displayMode": "gradient",
+              "maxVizHeight": 300,
+              "minVizHeight": 16,
+              "minVizWidth": 8,
+              "namePlacement": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showUnfilled": true,
+              "sizing": "auto",
+              "valueMode": "color"
+            },
+            "pluginVersion": "11.0.0",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "expr": "sum(rate(service_error_with_type{service_name=\"worker\"}[$__range])) by (error_type)",
+                "legendFormat": "{{error_type}}",
+                "refId": "B"
+              }
+            ],
+            "title": "Service Errors by Type (worker)",
+            "type": "bargauge"
+          }
+        ],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "Service Availability Monitoring",
+        "type": "row"
+      },
+      {
+        "collapsed": true,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "P1E53E98DCFC0B173"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 4
+        },
+        "id": 13,
+        "panels": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "Trend of persistence requests per operation in the time range selected. (cluster load over time per operation).",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 24,
+              "x": 0,
+              "y": 29
+            },
+            "id": 12,
+            "options": {
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "maxHeight": 600,
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "expr": "sum by (operation) (rate(persistence_requests[$__range]))",
+                "legendFormat": "{{operation}}",
+                "refId": "G"
+              }
+            ],
+            "title": "Persistence Requests by Operation (Trend 5m Rate)",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "The number of persistence requests over the time range selected., grouped by cluster operation.",
+            "fieldConfig": {
+              "defaults": {
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 24,
+              "x": 0,
+              "y": 37
+            },
+            "id": 11,
+            "options": {
+              "displayMode": "gradient",
+              "maxVizHeight": 300,
+              "minVizHeight": 16,
+              "minVizWidth": 8,
+              "namePlacement": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showUnfilled": true,
+              "sizing": "auto",
+              "valueMode": "color"
+            },
+            "pluginVersion": "11.0.0",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "editorMode": "code",
+                "expr": "sum by (operation) (rate(persistence_requests[$__range])) > 0",
+                "legendFormat": "{{operation}}",
+                "range": true,
+                "refId": "F"
+              }
+            ],
+            "title": "Persistence Requests by Operation (5m Rate)",
+            "type": "bargauge"
+          }
+        ],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "Persistence Service Performance Monitoring",
+        "type": "row"
+      },
+      {
+        "collapsed": true,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "P1E53E98DCFC0B173"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 5
+        },
+        "id": 8,
+        "panels": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "The 95th percentile latency of gRPC calls to the 'frontend' service, grouped by operation over the time range selected. Substitute another service_name as needed.",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "decimals": 2,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "s"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 24,
+              "x": 0,
+              "y": 30
+            },
+            "id": 9,
+            "options": {
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "maxHeight": 600,
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "editorMode": "code",
+                "expr": "histogram_quantile(0.95, sum(rate(service_latency_bucket{service_name=\"frontend\"}[$__range])) by (operation, le))",
+                "legendFormat": "{{operation}}",
+                "range": true,
+                "refId": "C"
+              }
+            ],
+            "title": "95th Percentile Latency by Operation (frontend)",
+            "type": "timeseries"
+          }
+        ],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "Service Performance Monitoring",
+        "type": "row"
+      },
+      {
+        "collapsed": true,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "P1E53E98DCFC0B173"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 6
+        },
+        "id": 14,
+        "panels": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "description": "The number of gRPC requests coming into the cluster from external clients (start workflows or signals) during the time range selected.",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 24,
+              "x": 0,
+              "y": 7
+            },
+            "id": 15,
+            "options": {
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "maxHeight": 600,
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "P1E53E98DCFC0B173"
+                },
+                "expr": "sum by (operation) (rate(service_requests{operation=~\"StartWorkflowExecution|SignalWorkflowExecution|SignalWithStartWorkflowExecution\"}[$__range]))",
+                "legendFormat": "{{operation}}",
+                "refId": "H"
+              }
+            ],
+            "title": "External Events: Workflow & Signal Requests",
+            "type": "timeseries"
+          }
+        ],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P1E53E98DCFC0B173"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "External Event Monitoring",
+        "type": "row"
+      },
+      {
+        "type": "row",
+        "title": "Workflow Monitoring",
+        "collapsed": false,
+        "gridPos": {
+          "x": 0,
+          "y": 40,
+          "w": 24,
+          "h": 1
+        },
+        "panels": []
+      },
+      {
+        "type": "stat",
+        "title": "AddWorkflowTask Requests (rate)",
+        "description": "The number of gRPC requests to add new workflows in the time range selected. Monitor with 'RecordWorkflowTaskStarted', 'RespondWorkflowTaskCompleted', and 'RespondWorkflowTaskFailed' to observe expected state transitions.",
+        "gridPos": {
+          "x": 0,
+          "y": 41,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(service_requests{ operation=\"AddWorkflowTask\"}[$__range]))",
+            "legendFormat": "AddWorkflowTask",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "stat",
+        "title": "ScheduleToStart Timeout (rate)",
+        "description": "The number of workflows in the time range selected that exceeded maximum schedule-to-start timeout. Indicates if workers are busy or unavailable.",
+        "gridPos": {
+          "x": 12,
+          "y": 41,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(schedule_to_start_timeout{ operation=\"TimerActiveTaskWorkflowTimeout\"}[$__range]))",
+            "legendFormat": "ScheduleToStartTimeout",
+            "refId": "B"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "stat",
+        "title": "ScheduleToClose Timeout (rate)",
+        "description": "The number of workflows in the time range selected that exceeded schedule-to-close timeout. Indicates workflows may not be completing due to slowdowns.",
+        "gridPos": {
+          "x": 0,
+          "y": 47,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(start_to_close_timeout{ operation=\"TimerActiveTaskWorkflowTimeout\"}[$__range]))",
+            "legendFormat": "ScheduleToCloseTimeout",
+            "refId": "C"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "timeseries",
+        "title": "History Cache Lock Latency (p99)",
+        "description": "The 99th percentile lock acquisition latency for workflow history ('HistoryCacheGetOrCreate') during the time range selected. Shows lock impact on workflow progress.",
+        "gridPos": {
+          "x": 12,
+          "y": 47,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(cache_latency_bucket{operation=\"HistoryCacheGetOrCreate\"}[$__range])) by (le))",
+            "legendFormat": "p99 history cache lock",
+            "refId": "D"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s",
+            "decimals": 2
+          }
+        }
+      },
+      {
+        "type": "timeseries",
+        "title": "Shard Lock Latency (p99)",
+        "description": "The 99th percentile lock acquisition latency for workflow history shards ('ShardInfo') during the time range selected. Shows lock impact on workflow progress.",
+        "gridPos": {
+          "x": 0,
+          "y": 53,
+          "w": 24,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(lock_latency_bucket{operation=\"ShardInfo\"}[$__range])) by (le))",
+            "legendFormat": "p99 shard lock",
+            "refId": "E"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s",
+            "decimals": 2
+          }
+        }
+      },
+      {
+        "type": "row",
+        "title": "Activity Monitoring",
+        "collapsed": false,
+        "gridPos": {
+          "x": 0,
+          "y": 60,
+          "w": 24,
+          "h": 1
+        },
+        "panels": []
+      },
+      {
+        "type": "stat",
+        "title": "AddActivityTask Requests (rate)",
+        "description": "The number of gRPC requests to add new activities in the time range selected. Useful to monitor initiation of activities.",
+        "gridPos": {
+          "x": 0,
+          "y": 61,
+          "w": 8,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(service_requests{operation=\"AddActivityTask\"}[$__range]))",
+            "legendFormat": "AddActivityTask",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "stat",
+        "title": "RecordActivityTaskStarted Requests (rate)",
+        "description": "The number of gRPC requests recording the start of an activity in the time range selected. Monitor against the previous panel to represent latency between scheduling and execution.",
+        "gridPos": {
+          "x": 8,
+          "y": 61,
+          "w": 8,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(service_requests{operation=\"RecordActivityTaskStarted\"}[$__range]))",
+            "legendFormat": "RecordActivityTaskStarted",
+            "refId": "B"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "stat",
+        "title": "ActivityTask End Requests (rate)",
+        "description": "The number of gRPC requests recording the end of an activity in the time range selected. Monitor against the previous panel to represent completion latency.",
+        "gridPos": {
+          "x": 16,
+          "y": 61,
+          "w": 8,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(service_requests{operation=~\"RespondActivityTaskCompleted|RespondActivityTaskFailed|RespondActivityTaskCanceled\"}[$__range]))",
+            "legendFormat": "ActivityTask Completed/Failed/Canceled",
+            "refId": "C"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "row",
+        "title": "Service Health Monitoring",
+        "collapsed": false,
+        "gridPos": {
+          "x": 0,
+          "y": 70,
+          "w": 24,
+          "h": 1
+        },
+        "panels": []
+      },
+      {
+        "type": "bargauge",
+        "title": "Cluster Service Restarts",
+        "description": "The number of cluster service restarts, grouped by service, in the time range selected. Frequent restarts indicate underlying issues.",
+        "gridPos": {
+          "x": 0,
+          "y": 71,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum by (temporal_service_type) (increase(restarts[$__range]))",
+            "legendFormat": "{{temporal_service_type}}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "bargauge",
+        "title": "Resource Exhausted Errors",
+        "description": "The number of 'resource exhausted' errors, grouped by cause, during the time range selected. Indicates rate limits/system overload.",
+        "gridPos": {
+          "x": 12,
+          "y": 71,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(service_errors_resource_exhausted{}[$__range])) by (resource_exhausted_cause)",
+            "legendFormat": "{{resource_exhausted_cause}}",
+            "refId": "B"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "row",
+        "title": "State Transition Monitoring",
+        "collapsed": false,
+        "gridPos": {
+          "x": 0,
+          "y": 77,
+          "w": 24,
+          "h": 1
+        },
+        "panels": []
+      },
+      {
+        "type": "stat",
+        "title": "State Transitions (rate)",
+        "description": "The number of state transitions persisted to the database in the time range selected. Indicates cluster throughput.",
+        "gridPos": {
+          "x": 0,
+          "y": 78,
+          "w": 24,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(state_transition_count[$__range]))",
+            "legendFormat": "StateTransitions",
+            "refId": "C"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "row",
+        "title": "Shard Rebalancing",
+        "collapsed": false,
+        "gridPos": {
+          "x": 0,
+          "y": 85,
+          "w": 24,
+          "h": 1
+        },
+        "panels": []
+      },
+      {
+        "type": "stat",
+        "title": "Shard Rebalances (rate)",
+        "description": "Number of History shard rebalances in the time range selected. Frequent rebalancing not due to scaling may indicate node issues.",
+        "gridPos": {
+          "x": 0,
+          "y": 86,
+          "w": 24,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(membership_changed_count[$__range]))",
+            "legendFormat": "ShardRebalances",
+            "refId": "D"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "row",
+        "title": "Worker Performance",
+        "collapsed": false,
+        "gridPos": {
+          "x": 0,
+          "y": 93,
+          "w": 24,
+          "h": 1
+        },
+        "panels": []
+      },
+      {
+        "type": "stat",
+        "title": "Available Worker Task Slots (avg over time)",
+        "description": "Average number of worker task slots available for WorkflowWorker in the time range selected. Hitting zero indicates worker backlog.",
+        "gridPos": {
+          "x": 0,
+          "y": 94,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "avg_over_time(temporal_worker_task_slots_available{namespace=\"default\",worker_type=\"WorkflowWorker\"}[$__range])",
+            "legendFormat": "Slots Available",
+            "refId": "E"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0
+          }
+        }
+      },
+      {
+        "type": "timeseries",
+        "title": "Workflow Task Schedule-to-Start Latency",
+        "description": "Latency from when a workflow task enters the queue to when a worker picks it up in the time range selected. Monitor per namespace and task queue.",
+        "gridPos": {
+          "x": 12,
+          "y": 94,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum by (namespace, task_queue) (rate(temporal_workflow_task_schedule_to_start_latency_seconds_bucket[$__range]))",
+            "legendFormat": "{{namespace}}:{{task_queue}}",
+            "refId": "F"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s",
+            "decimals": 2
+          }
+        }
+      },
+      {
+        "type": "timeseries",
+        "title": "Activity Task Schedule-to-Start Latency",
+        "description": "Latency from when an activity task enters the queue to when a worker picks it up in the time range selected. Monitor per namespace and task queue.",
+        "gridPos": {
+          "x": 0,
+          "y": 100,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum by (namespace, task_queue) (rate(temporal_activity_schedule_to_start_latency_seconds_bucket[$__range]))",
+            "legendFormat": "{{namespace}}:{{task_queue}}",
+            "refId": "G"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s",
+            "decimals": 2
+          }
+        }
+      },
+      {
+        "type": "stat",
+        "title": "Sync Match Rate",
+        "description": "The 'sync match rate' between workers and matching service during the time range selected. High rates reduce task latency and persistence load.",
+        "gridPos": {
+          "x": 12,
+          "y": 100,
+          "w": 12,
+          "h": 6
+        },
+        "targets": [
+          {
+            "expr": "sum(rate(poll_success_sync{}[$__range])) / sum(rate(poll_success{}[$__range]))",
+            "legendFormat": "SyncMatchRate",
+            "refId": "H"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "decimals": 2
+          }
+        }
+      }
+    ]
+  },
+  "folderId": 0,
+  "overwrite": true
+}
