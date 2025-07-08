@@ -1,0 +1,90 @@
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-temporal-schema-fix
+  labels:
+    app.kubernetes.io/component: database
+    app.kubernetes.io/name: temporal
+    app.kubernetes.io/instance: my-temporal
+    app.kubernetes.io/version: "1.28.0"
+    app.kubernetes.io/part-of: temporal
+spec:
+  backoffLimit: 100
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      name: my-temporal-schema-fix
+      labels:
+        app.kubernetes.io/component: database
+        app.kubernetes.io/name: temporal
+        app.kubernetes.io/instance: my-temporal
+        app.kubernetes.io/version: "1.28.0"
+        app.kubernetes.io/part-of: temporal
+    spec:
+      serviceAccountName: default
+      restartPolicy: OnFailure
+      initContainers:
+        - name: check-cassandra
+          image: "cassandra:3.11.3"
+          imagePullPolicy: IfNotPresent
+          command: ['sh', '-c', 'until cqlsh my-temporal-cassandra.default 9042 -e "SHOW VERSION"; do echo waiting for cassandra to start; sleep 1; done;']
+        - name: create-default-store
+          image: "temporalio/admin-tools:1.28.0-tctl-1.18.2-cli-1.3.0"
+          imagePullPolicy: IfNotPresent
+          command: ['temporal-cassandra-tool', 'create', '-k', 'temporal', '--replication-factor', '1']
+          env:
+            - name: CASSANDRA_HOST
+              value: my-temporal-cassandra.default
+            - name: CASSANDRA_PORT
+              value: "9042"
+            - name: CASSANDRA_KEYSPACE
+              value: temporal
+            - name: CASSANDRA_USER
+              value: user
+            - name: CASSANDRA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-temporal-default-store
+                  key: password
+        - name: setup-default-store
+          image: "temporalio/admin-tools:1.28.0-tctl-1.18.2-cli-1.3.0"
+          imagePullPolicy: IfNotPresent
+          command: ['temporal-cassandra-tool', 'setup-schema', '-v', '0.0']
+          env:
+            - name: CASSANDRA_HOST
+              value: my-temporal-cassandra.default
+            - name: CASSANDRA_PORT
+              value: "9042"
+            - name: CASSANDRA_KEYSPACE
+              value: temporal
+            - name: CASSANDRA_USER
+              value: user
+            - name: CASSANDRA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-temporal-default-store
+                  key: password
+        - name: update-default-store
+          image: "temporalio/admin-tools:1.28.0-tctl-1.18.2-cli-1.3.0"
+          imagePullPolicy: IfNotPresent
+          command: ['temporal-cassandra-tool', 'update-schema', '--schema-dir', '/etc/temporal/schema/cassandra/temporal/versioned']
+          env:
+            - name: CASSANDRA_HOST
+              value: my-temporal-cassandra.default
+            - name: CASSANDRA_PORT
+              value: "9042"
+            - name: CASSANDRA_KEYSPACE
+              value: temporal
+            - name: CASSANDRA_USER
+              value: user
+            - name: CASSANDRA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-temporal-default-store
+                  key: password
+      containers:
+        - name: done
+          image: "temporalio/admin-tools:1.28.0-tctl-1.18.2-cli-1.3.0"
+          imagePullPolicy: IfNotPresent
+          command: ['sh', '-c', 'echo "Store setup completed"']
