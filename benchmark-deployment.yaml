@@ -65,6 +65,6 @@ spec:
         - name: TEMPORAL_TASK_QUEUE
           value: "benchmark"
         - name: CONCURRENT_WORKFLOWS
-          value: "10"
+          value: "3"
         command: ["runner", "-w", "-c", "$(CONCURRENT_WORKFLOWS)", "-t", "ExecuteActivity", '{ "Count": 3, "Activity": "Echo", "Input": { "Message": "test" } }']
       restartPolicy: Always
