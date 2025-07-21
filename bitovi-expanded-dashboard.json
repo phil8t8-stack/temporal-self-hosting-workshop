@@ -459,8 +459,10 @@
             "type": "prometheus",
             "uid": "P1E53E98DCFC0B173"
           },
-          "expr": "sum(rate(service_error_with_type{service_name=\"frontend\"}[$__range])) by (error_type)",
+          "editorMode": "code",
+          "expr": "sum(increase(service_error_with_type{service_name=\"frontend\"}[$__range])) by (error_type)",
           "legendFormat": "{{error_type}}",
+          "range": true,
           "refId": "B"
         }
       ],
@@ -526,8 +528,10 @@
             "type": "prometheus",
             "uid": "P1E53E98DCFC0B173"
           },
-          "expr": "sum(rate(service_error_with_type{service_name=\"history\"}[$__range])) by (error_type)",
+          "editorMode": "code",
+          "expr": "sum(increase(service_error_with_type{service_name=\"history\"}[$__range])) by (error_type)",
           "legendFormat": "{{error_type}}",
+          "range": true,
           "refId": "B"
         }
       ],
@@ -593,8 +597,10 @@
             "type": "prometheus",
             "uid": "P1E53E98DCFC0B173"
           },
-          "expr": "sum(rate(service_error_with_type{service_name=\"matching\"}[$__range])) by (error_type)",
+          "editorMode": "code",
+          "expr": "sum(increase(service_error_with_type{service_name=\"matching\"}[$__range])) by (error_type)",
           "legendFormat": "{{error_type}}",
+          "range": true,
           "refId": "B"
         }
       ],
@@ -660,8 +666,10 @@
             "type": "prometheus",
             "uid": "P1E53E98DCFC0B173"
           },
-          "expr": "sum(rate(service_error_with_type{service_name=\"worker\"}[$__range])) by (error_type)",
+          "editorMode": "code",
+          "expr": "sum(increase(service_error_with_type{service_name=\"worker\"}[$__range])) by (error_type)",
           "legendFormat": "{{error_type}}",
+          "range": true,
           "refId": "B"
         }
       ],
@@ -903,7 +911,7 @@
             "type": "prometheus",
             "uid": "P1E53E98DCFC0B173"
           },
-          "expr": "sum by (operation) (rate(persistence_requests[$__range]))",
+          "expr": "sum by (operation) (rate(persistence_requests[5m]))",
           "legendFormat": "{{operation}}",
           "refId": "G"
         }
@@ -919,7 +927,10 @@
       "description": "The number of persistence requests over the time range selected., grouped by cluster operation.",
       "fieldConfig": {
         "defaults": {
-          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -930,11 +941,10 @@
               },
               {
                 "color": "red",
-                "value": 80
+                "value": 10000
               }
             ]
-          },
-          "unit": "short"
+          }
         },
         "overrides": []
       },
@@ -946,11 +956,8 @@
       },
       "id": 11,
       "options": {
-        "displayMode": "gradient",
-        "maxVizHeight": 300,
-        "minVizHeight": 16,
-        "minVizWidth": 8,
-        "namePlacement": "auto",
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -959,9 +966,9 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "valueMode": "color"
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -971,14 +978,14 @@
             "uid": "P1E53E98DCFC0B173"
           },
           "editorMode": "code",
-          "expr": "sum by (operation) (rate(persistence_requests[$__range])) > 50",
+          "expr": "sum by (operation) (increase(persistence_requests[5m])) > 50",
           "legendFormat": "{{operation}}",
           "range": true,
           "refId": "F"
         }
       ],
-      "title": "Persistence Requests by Operation (5m Rate)",
-      "type": "bargauge"
+      "title": "Persistence Requests by Operation (5m Rate Total)",
+      "type": "gauge"
     },
     {
       "collapsed": false,
@@ -1105,6 +1112,202 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1E53E98DCFC0B173"
+      },
+      "description": "The 95th percentile latency of gRPC calls to the 'frontend' service, grouped by operation over the time range selected. Substitute another service_name as needed.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 69
+      },
+      "id": 68,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1E53E98DCFC0B173"
+          },
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.95, sum(rate(service_latency_bucket{service_name=\"matching\"}[$__range])) by (operation, le))",
+          "legendFormat": "{{operation}}",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "95th Percentile Latency by Operation (matching)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1E53E98DCFC0B173"
+      },
+      "description": "The 95th percentile latency of gRPC calls to the 'frontend' service, grouped by operation over the time range selected. Substitute another service_name as needed.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 77
+      },
+      "id": 69,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1E53E98DCFC0B173"
+          },
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.95, sum(rate(service_latency_bucket{service_name=\"history\"}[$__range])) by (operation, le))",
+          "legendFormat": "{{operation}}",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "95th Percentile Latency by Operation (history)",
+      "type": "timeseries"
+    },
+    {
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
@@ -1114,7 +1317,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 69
+        "y": 85
       },
       "id": 14,
       "panels": [],
@@ -1196,7 +1399,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 70
+        "y": 86
       },
       "id": 15,
       "options": {
@@ -1236,7 +1439,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 78
+        "y": 94
       },
       "id": 16,
       "panels": [],
@@ -1283,7 +1486,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 79
+        "y": 95
       },
       "id": 17,
       "options": {
@@ -1348,7 +1551,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 79
+        "y": 95
       },
       "id": 18,
       "options": {
@@ -1413,7 +1616,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 85
+        "y": 101
       },
       "id": 19,
       "options": {
@@ -1513,7 +1716,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 85
+        "y": 101
       },
       "id": 20,
       "options": {
@@ -1609,7 +1812,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 91
+        "y": 107
       },
       "id": 21,
       "options": {
@@ -1649,7 +1852,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 97
+        "y": 113
       },
       "id": 22,
       "panels": [],
@@ -1696,7 +1899,7 @@
         "h": 6,
         "w": 8,
         "x": 0,
-        "y": 98
+        "y": 114
       },
       "id": 23,
       "options": {
@@ -1761,7 +1964,7 @@
         "h": 6,
         "w": 8,
         "x": 8,
-        "y": 98
+        "y": 114
       },
       "id": 24,
       "options": {
@@ -1826,7 +2029,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 98
+        "y": 114
       },
       "id": 25,
       "options": {
@@ -1870,7 +2073,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 104
+        "y": 120
       },
       "id": 26,
       "panels": [],
@@ -1917,7 +2120,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 105
+        "y": 121
       },
       "id": 27,
       "options": {
@@ -1984,7 +2187,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 105
+        "y": 121
       },
       "id": 28,
       "options": {
@@ -2030,7 +2233,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 111
+        "y": 127
       },
       "id": 29,
       "panels": [],
@@ -2077,7 +2280,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 112
+        "y": 128
       },
       "id": 30,
       "options": {
@@ -2121,7 +2324,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 118
+        "y": 134
       },
       "id": 31,
       "panels": [],
@@ -2151,8 +2354,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2168,7 +2370,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 135
       },
       "id": 32,
       "options": {
@@ -2212,7 +2414,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 125
+        "y": 141
       },
       "id": 33,
       "panels": [],
@@ -2242,8 +2444,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2259,7 +2460,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 126
+        "y": 142
       },
       "id": 34,
       "options": {
@@ -2342,8 +2543,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2359,7 +2559,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 126
+        "y": 142
       },
       "id": 35,
       "options": {
@@ -2438,8 +2638,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2455,7 +2654,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 132
+        "y": 148
       },
       "id": 36,
       "options": {
@@ -2501,8 +2700,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2518,7 +2716,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 132
+        "y": 148
       },
       "id": 37,
       "options": {
