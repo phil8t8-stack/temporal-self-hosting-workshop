@@ -1,0 +1,98 @@
+server:
+  persistence:
+    default:
+      driver: cassandra
+      cassandraPort: 9042
+      cassandra:
+        hosts:  
+          - persistence-temporal-cassandra.persistence.svc.cluster.local
+        port: 9042
+        keyspace: temporal
+        user: user
+        password: password
+  visibility:
+    default:
+      driver: cassandra
+      cassandraPort: 9042
+      cassandra:
+        hosts:  
+          - persistence-temporal-cassandra.persistence.svc.cluster.local
+        port: 9042
+        keyspace: temporal
+        user: user
+        password: password
+  frontend:
+    port: 7233
+    membershipPort: 6933
+    httpPort: 7243
+  history:
+    port: 7234
+    membershipPort: 6934
+  matching:
+    port: 7235
+    membershipPort: 6935
+  worker:
+    port: 7239
+    membershipPort: 6939
+  replicaCount: 1
+  config:
+    persistence:
+      default:
+        driver: "cassandra"
+        cassandra:
+          hosts: ["persistence-temporal-cassandra.persistence.svc.cluster.local"]
+          port: 9042
+          keyspace: temporal
+          user: "user"
+          password: "password"
+          existingSecret: ""
+          replicationFactor: 1
+          consistency:
+            default:
+              consistency: "local_quorum"
+              serialConsistency: "local_serial"
+    clusterMetadata:
+      enableGlobalNamespace: true
+      failoverVersionIncrement: 10
+      masterClusterName: "active"
+      currentClusterName: "active"
+      clusterInformation:
+        active:
+          enabled: true
+          initialFailoverVersion: 1
+          rpcName: "temporal-frontend"
+          rpcAddress: "127.0.0.1:7233"
+          httpAddress: "127.0.0.1:7243"
+        passive-1:
+          enabled: true
+          initialFailoverVersion: 2
+          rpcName: "temporal-frontend"
+          rpcAddress: "127.0.0.1:17233"
+          httpAddress: "127.0.0.1:17243"
+admin-tools:
+  enabled: false
+cassandra:
+  enabled: false
+  persistence:
+    enabled: false
+elasticsearch:
+  enabled: false
+  external: true
+  host: elasticsearch-master.persistence.svc.cluster.local
+  port: "9200"
+  version: "v7"
+  scheme: "http"
+  logLevel: "error"
+prometheus:
+  enabled: false
+grafana:
+  enabled: false
+mysql:
+  enabled: false
+schema:
+  createDatabase:
+    enabled: false
+  setup:
+    enabled: false
+  update:
+    enabled: false
