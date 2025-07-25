@@ -1,0 +1,26 @@
+{
+    "count":{
+        "type":"fixed",
+        "value":5
+    },
+    "groups":{
+        "high":{
+            "weight":2,
+            "sleepDuration":{
+                "type":"uniform",
+                "min":"2s",
+                "max":"4s"
+            }
+        },
+        "low":{
+            "weight":3,
+            "sleepDuration":{
+                "type":"discrete",
+                "weights":{
+                    "5s":3,
+                    "10s":1
+                }
+            }
+        }
+    }
+}
