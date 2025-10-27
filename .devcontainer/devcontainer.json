@@ -1,0 +1,10 @@
+    {
+      "name": "Bitovi - Temporal Self-Hosting workshop",
+      "image": "mcr.microsoft.com/devcontainers/universal:latest", // Or a more specific image
+      "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:1": {
+          "version": "latest"
+        }
+      },
+      "postCreateCommand": "go install sigs.k8s.io/kind@latest && kind create cluster" // Example: Install Go and then Kind
+    }

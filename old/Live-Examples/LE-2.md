@@ -43,19 +43,13 @@ go run ./cmd run-scenario --scenario state_transitions_steady --duration 2m --op
 
 - Nope, it can no longer handle the test that before it was easily handling
 
-# Next do with 10
-```bash
-go run ./cmd run-scenario --scenario state_transitions_steady --duration 2m --option state-transitions-per-second=10 --run-id state_transitions_steady_test &>> ../logs/state_transitions_steady.log
-```
-
-
-- As we can see 10 seems fine, but that is a massive decrease in capabilities.
 
 # Open Grafana
 - Coming up in the next session we'll explore these metrics but for the sake of showing you what this looks like in the observability layer
 
+```
 localhost:3000
-
+```
 
 ```bash
 kubectl get secret my-temporal-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
@@ -69,12 +63,4 @@ curl -X POST "localhost:3000/api/dashboards/db" \
 ```
 
 
-1. Open up the Bitovi's Expanded Dashboard
-2. Look at the History Cache Lock Latency
-    - (X) milliseconds for our History cache is really bad.. If we had others shards this would be mucher lower as the additional load would be spread across the concurrent persistence events taking place.
-3. Look at the 95th percentile graph
-    - Look at the PollWorkflowTaskQueue operation.. in the single digit minute.. this again is awful and it's because there is only a single shard and that single shard's entire workload is updating the event history. 
-4. Open the History Service dashboard
-5. Take a look at the Latency panel
-    - As expected the latency of our History operations is atrocious, and again this is because there is simply no free bandwidth for the history service to work
-
+- Open up the Bitovi's Expanded Dashboard
