@@ -24,5 +24,16 @@
       "extensions": ["ms-kubernetes-tools.vscode-kubernetes-tools"]
     }
   },
-  "forwardPorts": [8080, 7233]
+  "forwardPorts": [
+    8080,
+    7233
+  ],
+  "portsAttributes": {
+    "7233": {
+      "label": "CLI"
+    },
+    "8080": {
+      "label": "WebUI"
+    }
+  }
 }
