@@ -1,10 +1,22 @@
-    {
-      "name": "Bitovi - Temporal Self-Hosting workshop",
-      "image": "mcr.microsoft.com/devcontainers/universal:latest", // Or a more specific image
-      "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:1": {
-          "version": "latest"
-        }
-      },
-      "postCreateCommand": "go install sigs.k8s.io/kind@latest && kind create cluster" // Example: Install Go and then Kind
+{
+  "name": "k8s-kind-dev",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    "ghcr.io/devcontainers/features/kubectl:1": {}
+  },
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "containerEnv": {
+    "KUBECONFIG": "/workspaces/.kube/dev-kind.yaml",
+    "KIND_CLUSTER_NAME": "dev"
+  },
+  "postCreateCommand": "bash .devcontainer/setup-kind.sh",
+  "postStartCommand": "bash .devcontainer/start-kind.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-kubernetes-tools.vscode-kubernetes-tools"]
     }
+  }
+}
