@@ -1,10 +1,10 @@
-
-- Prereqs
+# Temporal Self-Hosting workshop
+## Prereqs
     - Github account
     - [Temporal CLI](https://docs.temporal.io/cli)
     - [gh cli](https://github.com/cli/cli)
 
-
+## Codespace creation
 1. Create the Github Codespace
 2. (Once complete) Run `./.devcontainer/start-ports.sh`
 3. Open the WebUI via the ports tab
