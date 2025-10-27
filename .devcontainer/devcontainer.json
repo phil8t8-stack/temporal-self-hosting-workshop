@@ -1,22 +1,28 @@
 {
   "name": "k8s-kind-dev",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-    "ghcr.io/devcontainers/features/kubectl:1": {}
   },
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
-  "containerEnv": {
-    "KUBECONFIG": "/workspaces/.kube/dev-kind.yaml",
-    "KIND_CLUSTER_NAME": "dev"
+  "hostRequirements": {
+    "cpus": 8,
+    "memory": "8gb",
+    "storage": "32gb"
   },
-  "postCreateCommand": "bash .devcontainer/setup-kind.sh",
-  "postStartCommand": "bash .devcontainer/start-kind.sh",
+  "containerEnv": {
+    "KUBECONFIG": "/workspaces/.kube/dev.yaml",
+  },
+  "postStartCommand": "/bin/bash -lc '.devcontainer/start.sh'",
   "customizations": {
     "vscode": {
       "extensions": ["ms-kubernetes-tools.vscode-kubernetes-tools"]
     }
-  }
+  },
+  "forwardPorts": [8080, 7233]
 }
