@@ -19,6 +19,9 @@ helm install postgresql bitnami/postgresql --version 18.1.2 \
 # Add the Temporal Helm repository
 helm repo add temporalio https://temporalio.github.io/helm-charts
 
+mkdir -p /workspaces/.temporal \
+    && chmod 777 /workspaces/.temporal
+
 helm template temporal temporalio/temporal --version 0.68.1 \
     -f .devcontainer/temporal-values.yaml > /workspaces/.temporal/manifest.yaml
 
