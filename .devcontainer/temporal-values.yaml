@@ -45,3 +45,12 @@ cassandra:
   enabled: false
 elasticsearch:
   enabled: false
+
+grafana:
+  enabled: true
+  service:
+    type: NodePort
+    port: 3000
+    targetPort: 3000
+    nodePort: 30000
+  adminPassword: temporal

@@ -7,6 +7,10 @@
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
   },
+  "runArgs": [
+    "--network=host",
+    "--add-host=host.docker.internal:host-gateway"
+  ],
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
@@ -26,7 +30,8 @@
   },
   "forwardPorts": [
     8080,
-    7233
+    7233,
+    3000
   ],
   "portsAttributes": {
     "7233": {
@@ -34,6 +39,9 @@
     },
     "8080": {
       "label": "WebUI"
+    },
+    "3000": {
+      "label": "Grafana"
     }
   }
 }
