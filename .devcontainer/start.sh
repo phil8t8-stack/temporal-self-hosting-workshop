@@ -4,6 +4,7 @@ set -euo pipefail
 # Start the k3d cluster
 if k3d cluster list | grep -q '^dev\s'; then
   echo "k3d cluster 'dev' already exists"
+  k3d cluster start dev
 else
   # Map host ports -> cluster nodeports
   k3d cluster create dev \

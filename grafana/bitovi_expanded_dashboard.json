@@ -34,7 +34,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "This shows the per-node request throughput to the Temporal persistence layer, broken down by operation. It helps identify which operations (e.g., history appends, workflow updates, replication tasks) are driving backend load on each node, useful for spotting hot nodes, spikes, or replication-related pressure in multi-cluster setups.",
           "fieldConfig": {
@@ -124,7 +124,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (operation, node) (rate(persistence_requests{}[2m]))",
@@ -139,7 +139,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of persistence requests over the time range selected., grouped by cluster operation.",
           "fieldConfig": {
@@ -191,7 +191,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (operation) (increase(persistence_requests{}[2m])) > 50",
@@ -206,7 +206,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The 99th percentile lock acquisition latency for workflow history shards ('ShardInfo') during the time range selected. Shows lock impact on workflow progress.",
           "fieldConfig": {
@@ -293,7 +293,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.99, sum(rate(lock_latency_bucket{operation=\"ShardInfo\"}[2m])) by (le))",
@@ -308,7 +308,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The 99th percentile lock acquisition latency for workflow history ('HistoryCacheGetOrCreate') during the time range selected. Shows lock impact on workflow progress.",
           "fieldConfig": {
@@ -395,7 +395,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.99, sum(rate(cache_latency_bucket{operation=\"HistoryCacheGetOrCreate\"}[2m])) by (le))",
@@ -424,7 +424,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of gRPC requests to add new activities in the time range selected. Useful to monitor initiation of activities.",
           "fieldConfig": {
@@ -477,7 +477,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum(rate(service_requests{operation=\"AddActivityTask\"}[$__range]))",
               "legendFormat": "AddActivityTask",
@@ -490,7 +490,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of gRPC requests recording the start of an activity in the time range selected. Monitor against the previous panel to represent latency between scheduling and execution.",
           "fieldConfig": {
@@ -543,7 +543,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum(rate(service_requests{operation=\"RecordActivityTaskStarted\"}[$__range]))",
               "legendFormat": "RecordActivityTaskStarted",
@@ -556,7 +556,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of gRPC requests recording the end of an activity in the time range selected. Monitor against the previous panel to represent completion latency.",
           "fieldConfig": {
@@ -609,7 +609,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum(rate(service_requests{operation=~\"RespondActivityTaskCompleted|RespondActivityTaskFailed|RespondActivityTaskCanceled\"}[$__range]))",
               "legendFormat": "ActivityTask Completed/Failed/Canceled",
@@ -636,7 +636,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Overall % of successful gRPC requests using time range specified (all services). Useful to monitor cluster health.",
           "fieldConfig": {
@@ -691,7 +691,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "100 - (sum(rate(service_errors{}[$__range]) OR on() vector(0)) / sum(rate(service_requests{}[$__range])) * 100)",
               "legendFormat": "Availability",
@@ -704,7 +704,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Percentage of successful requests to the persistence service in the time range selected (cluster-wide).",
           "fieldConfig": {
@@ -759,7 +759,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "100 - (sum(rate(persistence_errors{}[$__range]) OR on() vector(0)) / sum(rate(persistence_requests{}[$__range])) * 100)",
               "legendFormat": "Success %",
@@ -772,7 +772,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Number of errors by type for service_name=\"frontend\" in the time range selected.",
           "fieldConfig": {
@@ -832,7 +832,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum(increase(service_error_with_type{service_name=\"frontend\"}[5m])) by (error_type) > 10",
@@ -847,7 +847,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Number of errors by type for service_name=\"history\" in the time range selected.",
           "fieldConfig": {
@@ -907,7 +907,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -924,7 +924,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Number of errors by type for service_name=\"matching\" in the time range selected..",
           "fieldConfig": {
@@ -984,7 +984,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum(increase(service_error_with_type{service_name=\"matching\"}[$__range])) by (error_type)",
@@ -999,7 +999,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Number of errors by type for service_name=\"worker\" in the time range selected..",
           "fieldConfig": {
@@ -1059,7 +1059,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum(increase(service_error_with_type{service_name=\"worker\"}[$__range])) by (error_type)",
@@ -1074,7 +1074,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -1158,7 +1158,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (exported_namespace, resource_exhausted_cause, service_name) (rate(service_errors_resource_exhausted{}[2m]))",
@@ -1174,7 +1174,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -1258,7 +1258,7 @@
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (service_name, resource_exhausted_cause) (rate(service_errors_entity_not_found{}[2m]))",
@@ -1270,7 +1270,7 @@
             },
             {
               "datasource": {
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (service_name, resource_exhausted_cause) (rate(service_errors_execution_already_started{}[2m]))",
@@ -1282,7 +1282,7 @@
             },
             {
               "datasource": {
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (service_name, resource_exhausted_cause) (rate(service_errors_resource_exhausted{}[2m]))",
@@ -1299,7 +1299,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -1383,7 +1383,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.99, sum(rate(cache_latency_bucket{operation=\"HistoryCacheGetOrCreate\"}[2m])) by (le))",
@@ -1413,7 +1413,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The 95th percentile latency of gRPC calls to the 'frontend' service, grouped by operation over the time range selected. Substitute another service_name as needed.",
           "fieldConfig": {
@@ -1500,7 +1500,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.95, sum(rate(service_latency_bucket{service_name=\"frontend\"}[2m])) by (operation, le))",
@@ -1515,7 +1515,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The 95th percentile latency of gRPC calls to the 'frontend' service, grouped by operation over the time range selected. Substitute another service_name as needed.",
           "fieldConfig": {
@@ -1602,7 +1602,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.95, sum(rate(service_latency_bucket{service_name=\"matching\"}[$__range])) by (operation, le))",
@@ -1617,7 +1617,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The 95th percentile latency of gRPC calls to the 'frontend' service, grouped by operation over the time range selected. Substitute another service_name as needed.",
           "fieldConfig": {
@@ -1704,7 +1704,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.95, sum(rate(service_latency_bucket{service_name=\"history\"}[$__range])) by (operation, le))",
@@ -1733,7 +1733,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of gRPC requests coming into the cluster from external clients (start workflows or signals) during the time range selected.",
           "fieldConfig": {
@@ -1820,7 +1820,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum by (operation) (rate(service_requests{operation=~\"StartWorkflowExecution|SignalWorkflowExecution|SignalWithStartWorkflowExecution\"}[$__range]))",
               "legendFormat": "{{operation}}",
@@ -1847,7 +1847,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of gRPC requests to add new workflows in the time range selected. Monitor with 'RecordWorkflowTaskStarted', 'RespondWorkflowTaskCompleted', and 'RespondWorkflowTaskFailed' to observe expected state transitions.",
           "fieldConfig": {
@@ -1900,7 +1900,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum(rate(service_requests{operation=\"AddWorkflowTask\"}[$__range]))",
               "legendFormat": "AddWorkflowTask",
@@ -1913,7 +1913,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of workflows in the time range selected that exceeded maximum schedule-to-start timeout. Indicates if workers are busy or unavailable.",
           "fieldConfig": {
@@ -1966,7 +1966,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum(rate(schedule_to_start_timeout{operation=\"TimerActiveTaskWorkflowTimeout\"}[$__range]))",
               "legendFormat": "ScheduleToStartTimeout",
@@ -1979,7 +1979,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of workflows in the time range selected that exceeded schedule-to-close timeout. Indicates workflows may not be completing due to slowdowns.",
           "fieldConfig": {
@@ -2032,7 +2032,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum(rate(start_to_close_timeout{operation=\"TimerActiveTaskWorkflowTimeout\"}[$__range]))",
               "legendFormat": "ScheduleToCloseTimeout",
@@ -2059,7 +2059,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -2143,7 +2143,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (service_name, namespace) (rate(service_requests{service_name=\"frontend\", app_kubernetes_io_headless=\"\", namespace=~\"${namespace}\"}[2m])) * 120",
@@ -2155,7 +2155,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (service_name, namespace)  (rate(service_requests{service_name=\"history\", app_kubernetes_io_headless=\"\", namespace=~\"${namespace}\"}[2m])) * 120",
@@ -2173,7 +2173,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -2282,7 +2282,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (service_name) (rate(service_errors{service_name=\"frontend\", app_kubernetes_io_headless=\"\", namespace=~\"${namespace}\"}[2m])) ",
@@ -2295,7 +2295,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (service_name) (rate(service_errors{service_name=\"history\", app_kubernetes_io_headless=\"\", namespace=~\"${namespace}\"}[2m]))",
@@ -2313,7 +2313,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -2398,7 +2398,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.99, sum by (operation, le) (rate(service_latency_bucket{operation=~\"StartWorkflowExecution|SignalWorkflowExecution|RespondWorkflowTaskCompleted|RespondActivityTaskCompleted\", service_name=\"frontend\"}[2m])))",
@@ -2414,7 +2414,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -2499,7 +2499,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.99, sum by (operation, le) (rate(service_latency_bucket{operation=~\"StartWorkflowExecution|SignalWorkflowExecution|RespondWorkflowTaskCompleted|RespondActivityTaskCompleted\", service_name=\"history\"}[2m])))",
@@ -2515,7 +2515,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -2599,7 +2599,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (namespace, operation) (service_pending_requests{service_name=\"frontend\"})",
@@ -2631,7 +2631,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -2726,7 +2726,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -2810,7 +2810,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum(rate(persistence_requests{operation=\"CreateTask\"}[2m]))",
@@ -2826,7 +2826,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -2911,7 +2911,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.95,\n  sum by (namespace, task_type, operation, le) (rate(task_schedule_to_start_latency_bucket{namespace=~\"${namespace}\"}[2m]))\n)",
@@ -2928,7 +2928,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Rate of timeouts over 2 minute ranges",
           "fieldConfig": {
@@ -3014,7 +3014,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (namespace, operation) (rate(start_to_close_timeout{operation=\"TimerActiveTaskWorkflowTaskTimeout\"}[2m]))",
@@ -3026,7 +3026,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "",
@@ -3043,7 +3043,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -3128,7 +3128,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.99,\nsum by (le)(rate(cache_latency_bucket{operation=\"HistoryCacheGetOrCreate\"}[2m]))\n)",
@@ -3158,7 +3158,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -3242,7 +3242,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{container=\"temporal-history\"}[2m]))",
@@ -3255,7 +3255,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{container=\"temporal-frontend\"}[2m]))",
@@ -3268,7 +3268,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{container=\"temporal-matching\"}[2m]))",
@@ -3281,7 +3281,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{container=\"temporal-worker\"}[2m]))",
@@ -3298,7 +3298,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -3382,7 +3382,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (container) (container_memory_usage_bytes{container=\"temporal-frontend\"}) / 1024 / 1024",
@@ -3395,7 +3395,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (container) (container_memory_usage_bytes{container=\"temporal-history\"}) / 1024 / 1024",
@@ -3408,7 +3408,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (container) (container_memory_usage_bytes{container=\"temporal-matching\"}) / 1024 / 1024",
@@ -3421,7 +3421,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (container) (container_memory_usage_bytes{container=\"temporal-worker\"}) / 1024 / 1024",
@@ -3438,7 +3438,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of cluster service restarts, grouped by service, in the time range selected. Frequent restarts indicate underlying issues.",
           "fieldConfig": {
@@ -3498,7 +3498,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum by (temporal_service_type) (increase(restarts{}[$__range]))",
               "legendFormat": "{{temporal_service_type}}",
@@ -3511,7 +3511,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of 'resource exhausted' errors, grouped by cause, during the time range selected. Indicates rate limits/system overload.",
           "fieldConfig": {
@@ -3571,7 +3571,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum(rate(service_errors_resource_exhausted{}[2m])) by (resource_exhausted_cause)",
@@ -3600,7 +3600,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The number of state transitions persisted to the database in the time range selected. Indicates cluster throughput.",
           "fieldConfig": {
@@ -3687,7 +3687,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (namespace) (rate(state_transition_count_count{namespace!=\"temporal_system\"}[2m]))",
@@ -3702,7 +3702,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -3786,7 +3786,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (operation) (rate(persistence_requests{operation=~\"CreateWorkflowExecution|UpdateWorkflowExecution\"}[2m]))",
@@ -3802,7 +3802,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -3886,7 +3886,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum by (operation) (rate(persistence_requests{}[2m]))",
@@ -3902,7 +3902,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -3986,7 +3986,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum (rate(persistence_requests{}[2m]))",
@@ -4016,7 +4016,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Number of History shard rebalances in the time range selected. Frequent rebalancing not due to scaling may indicate node issues.",
           "fieldConfig": {
@@ -4103,7 +4103,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum(rate(membership_changed_count{}[2m])) *120",
@@ -4114,7 +4114,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "sum(rate(sharditem_created_count{}[2m]))*120",
@@ -4131,7 +4131,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -4215,7 +4215,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -4247,7 +4247,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Average number of worker task slots available for WorkflowWorker in the time range selected. Hitting zero indicates worker backlog.",
           "fieldConfig": {
@@ -4300,7 +4300,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "avg_over_time(temporal_worker_task_slots_available{namespace=\"default\",worker_type=\"WorkflowWorker\"}[$__range])",
               "legendFormat": "Slots Available",
@@ -4313,7 +4313,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Latency from when a workflow task enters the queue to when a worker picks it up in the time range selected. Monitor per namespace and task queue.",
           "fieldConfig": {
@@ -4400,7 +4400,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum by (namespace, task_queue) (rate(temporal_workflow_task_schedule_to_start_latency_seconds_bucket{}[$__range]))",
               "legendFormat": "{{namespace}}:{{task_queue}}",
@@ -4413,7 +4413,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "Latency from when an activity task enters the queue to when a worker picks it up in the time range selected. Monitor per namespace and task queue.",
           "fieldConfig": {
@@ -4500,7 +4500,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum by (namespace, task_queue) (rate(temporal_activity_schedule_to_start_latency_seconds_bucket{}[$__range]))",
               "legendFormat": "{{namespace}}:{{task_queue}}",
@@ -4513,7 +4513,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "description": "The 'sync match rate' between workers and matching service during the time range selected. High rates reduce task latency and persistence load.",
           "fieldConfig": {
@@ -4568,7 +4568,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "expr": "sum(rate(poll_success_sync{}[$__range])) / sum(rate(poll_success{}[$__range]))",
               "legendFormat": "SyncMatchRate",
@@ -4595,7 +4595,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -4680,7 +4680,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.95, \nsum(rate(task_latency_queue_bucket{operation=~\"VisibilityTask.*\", service_name=\"history\" }[2m])) by (operation, le))",
@@ -4696,7 +4696,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "TemporalMetrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -4781,7 +4781,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "$datasource"
+                "uid": "TemporalMetrics"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.95,\nsum(rate(task_latency_bucket{operation=~\"VisibilityTask.*\", service_name=\"history\"}[2m])) by (operation, le)\n)",
@@ -4807,21 +4807,7 @@
     "bitovi"
   ],
   "templating": {
-    "list": [
-      {
-        "current": {
-          "text": "Prometheus",
-          "value": "prometheus"
-        },
-        "includeAll": false,
-        "name": "datasource",
-        "options": [],
-        "query": "prometheus",
-        "refresh": 1,
-        "regex": "",
-        "type": "datasource"
-      }
-    ]
+    "list": []
   },
   "time": {
     "from": "now-30m",
