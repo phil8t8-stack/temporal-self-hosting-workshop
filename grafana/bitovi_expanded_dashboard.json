@@ -296,7 +296,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(0.99, sum(rate(lock_latency_bucket{, operation=\"ShardInfo\"}[2m])) by (le))",
+              "expr": "histogram_quantile(0.99, sum(rate(lock_latency_bucket{operation=\"ShardInfo\"}[2m])) by (le))",
               "legendFormat": "p99 shard lock",
               "range": true,
               "refId": "E"
@@ -398,7 +398,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(0.99, sum(rate(cache_latency_bucket{, operation=\"HistoryCacheGetOrCreate\"}[2m])) by (le))",
+              "expr": "histogram_quantile(0.99, sum(rate(cache_latency_bucket{operation=\"HistoryCacheGetOrCreate\"}[2m])) by (le))",
               "legendFormat": "p99 history cache lock",
               "range": true,
               "refId": "D"
@@ -479,7 +479,7 @@
                 "type": "prometheus",
                 "uid": "$datasource"
               },
-              "expr": "sum(rate(service_requests{, operation=\"AddActivityTask\"}[$__range]))",
+              "expr": "sum(rate(service_requests{operation=\"AddActivityTask\"}[$__range]))",
               "legendFormat": "AddActivityTask",
               "refId": "A"
             }
@@ -545,7 +545,7 @@
                 "type": "prometheus",
                 "uid": "$datasource"
               },
-              "expr": "sum(rate(service_requests{, operation=\"RecordActivityTaskStarted\"}[$__range]))",
+              "expr": "sum(rate(service_requests{operation=\"RecordActivityTaskStarted\"}[$__range]))",
               "legendFormat": "RecordActivityTaskStarted",
               "refId": "B"
             }
@@ -611,7 +611,7 @@
                 "type": "prometheus",
                 "uid": "$datasource"
               },
-              "expr": "sum(rate(service_requests{, operation=~\"RespondActivityTaskCompleted|RespondActivityTaskFailed|RespondActivityTaskCanceled\"}[$__range]))",
+              "expr": "sum(rate(service_requests{operation=~\"RespondActivityTaskCompleted|RespondActivityTaskFailed|RespondActivityTaskCanceled\"}[$__range]))",
               "legendFormat": "ActivityTask Completed/Failed/Canceled",
               "refId": "C"
             }
@@ -1822,7 +1822,7 @@
                 "type": "prometheus",
                 "uid": "$datasource"
               },
-              "expr": "sum by (operation) (rate(service_requests{, operation=~\"StartWorkflowExecution|SignalWorkflowExecution|SignalWithStartWorkflowExecution\"}[$__range]))",
+              "expr": "sum by (operation) (rate(service_requests{operation=~\"StartWorkflowExecution|SignalWorkflowExecution|SignalWithStartWorkflowExecution\"}[$__range]))",
               "legendFormat": "{{operation}}",
               "refId": "H"
             }
@@ -1902,7 +1902,7 @@
                 "type": "prometheus",
                 "uid": "$datasource"
               },
-              "expr": "sum(rate(service_requests{, operation=\"AddWorkflowTask\"}[$__range]))",
+              "expr": "sum(rate(service_requests{operation=\"AddWorkflowTask\"}[$__range]))",
               "legendFormat": "AddWorkflowTask",
               "refId": "A"
             }
@@ -1968,7 +1968,7 @@
                 "type": "prometheus",
                 "uid": "$datasource"
               },
-              "expr": "sum(rate(schedule_to_start_timeout{, operation=\"TimerActiveTaskWorkflowTimeout\"}[$__range]))",
+              "expr": "sum(rate(schedule_to_start_timeout{operation=\"TimerActiveTaskWorkflowTimeout\"}[$__range]))",
               "legendFormat": "ScheduleToStartTimeout",
               "refId": "B"
             }
@@ -2034,7 +2034,7 @@
                 "type": "prometheus",
                 "uid": "$datasource"
               },
-              "expr": "sum(rate(start_to_close_timeout{, operation=\"TimerActiveTaskWorkflowTimeout\"}[$__range]))",
+              "expr": "sum(rate(start_to_close_timeout{operation=\"TimerActiveTaskWorkflowTimeout\"}[$__range]))",
               "legendFormat": "ScheduleToCloseTimeout",
               "refId": "C"
             }
@@ -2146,7 +2146,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (service_name, namespace) (rate(service_requests{, service_name=\"frontend\", app_kubernetes_io_headless=\"\", namespace=~\"${namespace}\"}[2m])) * 120",
+              "expr": "sum by (service_name, namespace) (rate(service_requests{service_name=\"frontend\", app_kubernetes_io_headless=\"\", namespace=~\"${namespace}\"}[2m])) * 120",
               "instant": true,
               "legendFormat": "__auto",
               "range": true,
@@ -2158,7 +2158,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (service_name, namespace)  (rate(service_requests{, service_name=\"history\", app_kubernetes_io_headless=\"\", namespace=~\"${namespace}\"}[2m])) * 120",
+              "expr": "sum by (service_name, namespace)  (rate(service_requests{service_name=\"history\", app_kubernetes_io_headless=\"\", namespace=~\"${namespace}\"}[2m])) * 120",
               "hide": false,
               "instant": true,
               "key": "Q-b146a74e-ba7d-4cea-8d85-d01d7a6d83a7-1",
@@ -2602,7 +2602,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (namespace, operation) (service_pending_requests{, service_name=\"frontend\"})",
+              "expr": "sum by (namespace, operation) (service_pending_requests{service_name=\"frontend\"})",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2813,7 +2813,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum(rate(persistence_requests{, operation=\"CreateTask\"}[2m]))",
+              "expr": "sum(rate(persistence_requests{operation=\"CreateTask\"}[2m]))",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -3131,7 +3131,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(0.99,\nsum by (le)(rate(cache_latency_bucket{, operation=\"HistoryCacheGetOrCreate\"}[2m]))\n)",
+              "expr": "histogram_quantile(0.99,\nsum by (le)(rate(cache_latency_bucket{operation=\"HistoryCacheGetOrCreate\"}[2m]))\n)",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -3245,7 +3245,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{, container=\"temporal-history\"}[2m]))",
+              "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{container=\"temporal-history\"}[2m]))",
               "hide": false,
               "instant": false,
               "legendFormat": "__auto",
@@ -3271,7 +3271,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{, container=\"temporal-matching\"}[2m]))",
+              "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{container=\"temporal-matching\"}[2m]))",
               "hide": false,
               "instant": false,
               "legendFormat": "__auto",
@@ -3284,7 +3284,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{, container=\"temporal-worker\"}[2m]))",
+              "expr": "sum by (container)(rate(container_cpu_usage_seconds_total{container=\"temporal-worker\"}[2m]))",
               "hide": false,
               "instant": false,
               "legendFormat": "__auto",
@@ -3385,7 +3385,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (container) (container_memory_usage_bytes{, container=\"temporal-frontend\"}) / 1024 / 1024",
+              "expr": "sum by (container) (container_memory_usage_bytes{container=\"temporal-frontend\"}) / 1024 / 1024",
               "hide": false,
               "instant": false,
               "legendFormat": "__auto",
@@ -3411,7 +3411,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (container) (container_memory_usage_bytes{, container=\"temporal-matching\"}) / 1024 / 1024",
+              "expr": "sum by (container) (container_memory_usage_bytes{container=\"temporal-matching\"}) / 1024 / 1024",
               "hide": false,
               "instant": false,
               "legendFormat": "__auto",
@@ -3424,7 +3424,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (container) (container_memory_usage_bytes{, container=\"temporal-worker\"}) / 1024 / 1024",
+              "expr": "sum by (container) (container_memory_usage_bytes{container=\"temporal-worker\"}) / 1024 / 1024",
               "hide": false,
               "instant": false,
               "legendFormat": "__auto",
@@ -3690,7 +3690,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (namespace) (rate(state_transition_count_count{, namespace!=\"temporal_system\"}[2m]))",
+              "expr": "sum by (namespace) (rate(state_transition_count_count{namespace!=\"temporal_system\"}[2m]))",
               "legendFormat": "StateTransitions",
               "range": true,
               "refId": "C"
@@ -3789,7 +3789,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "sum by (operation) (rate(persistence_requests{, operation=~\"CreateWorkflowExecution|UpdateWorkflowExecution\"}[2m]))",
+              "expr": "sum by (operation) (rate(persistence_requests{operation=~\"CreateWorkflowExecution|UpdateWorkflowExecution\"}[2m]))",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -4683,7 +4683,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(0.95, \nsum(rate(task_latency_queue_bucket{, operation=~\"VisibilityTask.*\", service_name=\"history\" }[2m])) by (operation, le))",
+              "expr": "histogram_quantile(0.95, \nsum(rate(task_latency_queue_bucket{operation=~\"VisibilityTask.*\", service_name=\"history\" }[2m])) by (operation, le))",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -4784,7 +4784,7 @@
                 "uid": "$datasource"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(0.95,\nsum(rate(task_latency_bucket{, operation=~\"VisibilityTask.*\", service_name=\"history\"}[2m])) by (operation, le)\n)",
+              "expr": "histogram_quantile(0.95,\nsum(rate(task_latency_bucket{operation=~\"VisibilityTask.*\", service_name=\"history\"}[2m])) by (operation, le)\n)",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
