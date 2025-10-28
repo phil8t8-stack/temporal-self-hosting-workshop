@@ -4820,27 +4820,6 @@
         "refresh": 1,
         "regex": "",
         "type": "datasource"
-      },
-      {
-        "current": {
-          "text": "bitovi-mk8s2-node1",
-          "value": "bitovi-mk8s2-node1"
-        },
-        "name": "Node",
-        "options": [
-          {
-            "selected": true,
-            "text": "bitovi-mk8s2-node1",
-            "value": "bitovi-mk8s2-node1"
-          },
-          {
-            "selected": false,
-            "text": "bitovi-mk8s2-node2",
-            "value": "bitovi-mk8s2-node2"
-          }
-        ],
-        "query": "bitovi-mk8s2-node1, bitovi-mk8s2-node2",
-        "type": "custom"
       }
     ]
   },
